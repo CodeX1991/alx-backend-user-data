@@ -2,9 +2,9 @@
 """ Regex-ing"""
 
 
+from typing import List
 import re
 import logging
-from typing import List
 
 
 class RedactingFormatter(logging.Formatter):
