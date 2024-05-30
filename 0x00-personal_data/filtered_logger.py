@@ -50,8 +50,8 @@ def filter_datum(fields: List[str], redaction: str,
 
 def get_logger() -> logging.Logger:
     """Returns logging.Logger object"""
-    logger = logging.getLoger('user_data')
-    logger.setlevel(logging.INFO)
+    logger = logging.getLoger("user_data")
+    logger.setLevel(logging.INFO)
     logger.propagate = False
 
     # Create a streamhandler for console output
