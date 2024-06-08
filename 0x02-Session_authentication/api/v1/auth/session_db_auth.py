@@ -4,7 +4,7 @@
 
 from .session_exp_auth import SessionExpAuth
 from models.user_session import UserSession
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class SessionDBAuth(SessionExpAuth):
@@ -36,8 +36,9 @@ class SessionDBAuth(SessionExpAuth):
 
         user_session = user_sessions[0]
 
-        if self.session_duration <= 0:
-            return user_session.user_id
+        if user_session.created_at + timedelta(seconds=self.session_duration) \
+                < datetime.now():
+            return None
 
         return user_session.user_id
 
