@@ -2,7 +2,8 @@
 """Basic Flask App"""
 
 
-from flask import Flask, request, jsonify, abort, make_response
+from flask import Flask, request, jsonify, abort, \
+        make_response, redirect, url_for
 from auth import Auth
 
 
@@ -49,6 +50,24 @@ def login():
     response.set_cookie('session_id', session_id)
 
     return response
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout():
+    """Delete a session"""
+    # Extract the seeion id from cookies
+    session_id = request.cookies.get('session_id')
+
+    # Validate the session id
+    user = AUTH.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+
+    # Destroy the session by setting session_id to None
+    AUTH.destroy_session(user.id)
+
+    # Redirect to home page
+    return redirect(url_for('home'))
 
 
 if __name__ == "__main__":
