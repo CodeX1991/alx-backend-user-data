@@ -70,3 +70,24 @@ class DB:
             raise InvalidRequestError()
 
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        Update a user field
+
+        Args:
+            user_id (int): user id
+            kwargs: varadic arguments
+        Returns:
+            None or Error if doesnot exist
+        """
+        session = self._session
+        user = self.find_user_by(id=user_id)
+
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
+                raise ValueError()
+            setattr(user, key, value)
+        session.commit()
+
+        return None
